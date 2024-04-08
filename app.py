@@ -2,6 +2,7 @@ import os
 import psycopg2
 from flask import Flask, render_template, url_for, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 # Init App
 app = Flask(__name__)
@@ -9,7 +10,9 @@ app.config['SECRET_KEY'] = 'thisissecret'
 # our database uri
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:Cellfone01@localhost:5432/contactsdb"
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
+db.init_app(app)
+migrate = Migrate(app, db)
 
 # Create A Model For Table
 class Users(db.Model):
